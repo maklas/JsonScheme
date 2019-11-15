@@ -58,6 +58,9 @@ Output format:
 # Path selection
 If you want to collect data from specific fields, you can do that with this utility as well!
 
+Say you want to extract all the phone numbers from json-database. You can do that right away without need to code
+a lot of boilerplate Json code. And completely null-check free. Just use pathing!
+
 
 ### Examples:
 >These examples are applied to the same json from the first chapter for simplicity)
