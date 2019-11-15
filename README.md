@@ -1,7 +1,7 @@
 Feed your Json to the `JsonScheme.class` and get scheme for your Json with some additional info, if required.
 Such as average values, null percentage, most frequent string values, avg array length etc.
 
-Get it on Jitpack!
+[Get it on Jitpack!](https://jitpack.io/#maklas/JsonScheme)
 
 Usage:
 ```java
