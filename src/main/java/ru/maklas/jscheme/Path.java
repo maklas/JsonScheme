@@ -14,6 +14,7 @@ import java.util.Objects;
  * <li><b>key</b></li>
  * <li><b>parentKey/childKey</b></li>
  * <li><b>[parentKey/childKey]</b></li>
+ * <li><b>/parentKey/childKey</b></li>
  * <li><b>anArray/0</b> - first element of the array</li>
  * <li><b>anArray/*</b> - All elements of the array</li>
  * <li><b>rootElement/childArray/*<b>/</b>subElement/5/stringKey</b> - For all <b>childArray</b>s, get <b>subElement</b>'s fifth object and get value of <b>stringKey</b></li>
@@ -34,6 +35,9 @@ public class Path {
 		s = Objects.requireNonNull(s).trim();
 		if (s.startsWith("[") && s.endsWith("]")){
 			s = s.substring(1, s.length() - 1);
+		}
+		while (s.startsWith("/")) {
+			s = s.substring(1);
 		}
 		String[] paths = s.split("/");
 		for (int i = 0; i < paths.length; i++) {
@@ -64,9 +68,9 @@ public class Path {
 	/**
 	 * Returns List of JsonElements that reside by this path inside this element
 	 * @param e where to apply path
-	 * @param requireNonNull removes null values from output
+	 * @param removeNulls removes null values from output
 	 */
-	public List<JsonElement> get(JsonElement e, boolean requireNonNull){
+	public List<JsonElement> get(JsonElement e, boolean removeNulls){
 		List<JsonElement> parents = new ArrayList<>();
 		List<JsonElement> children = new ArrayList<>();
 		parents.add(e);
@@ -111,7 +115,7 @@ public class Path {
 		}
 
 		String lastPath = path[path.length - 1].trim();
-		if (requireNonNull){
+		if (removeNulls){
 			for (JsonElement parent : parents) {
 				if (parent == null || parent.isJsonNull()) continue;
 				if (parent.isJsonArray()) {
@@ -162,6 +166,15 @@ public class Path {
 		return children;
 	}
 
+	/** Same as {@link #get(JsonElement, boolean)}, but makes it easier to analyze lists of Json files **/
+	public List<JsonElement> get(List<JsonElement> elements, boolean removeNulls){
+		List<JsonElement> array = new ArrayList<>();
+		for (JsonElement element : elements) {
+			array.addAll(get(element, removeNulls));
+		}
+		return array;
+	}
+
 	public boolean isArrayElement(){
 		return path.length != 0 && isAnySign(last());
 	}
@@ -188,6 +201,12 @@ public class Path {
 			}
 		}
 		return e;
+	}
+
+	/** Returns first JsonElement found by this path **/
+	public JsonElement getFirst(JsonElement e) {
+		List<JsonElement> elements = get(e);
+		return elements.isEmpty() ? null : elements.get(0);
 	}
 
 	/** Appends at the end of current path **/

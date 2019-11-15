@@ -4,9 +4,7 @@ import com.google.gson.JsonElement;
 
 import java.util.*;
 
-/**
- * Scheme container for Json objects. Not much use except for printing data to string
- */
+/** Scheme container for Json objects. Not much use except for printing data to string **/
 public class JsonScheme {
 
 	private Map<Path, BaseElementInfo> map;
@@ -42,7 +40,6 @@ public class JsonScheme {
 		return this;
 	}
 
-
 	/**
 	 * Fills with much more information, such as contents of elements.
 	 * @param elements must be the same as was used to created JsonScheme
@@ -73,6 +70,27 @@ public class JsonScheme {
 		}
 	}
 
+	/** Returns list of Paths that are direct children of the specified parent **/
+	public List<Path> getDirectChildren(Path parent){
+		List<Path> children = new ArrayList<>();
+		for (Path path : map.keySet()) {
+			if (path.isDirectChildOf(parent)) {
+				children.add(path);
+			}
+		}
+		return children;
+	}
+
+	/** Returns Parent of this child if it's in the Scheme **/
+	public Path getDirectParent(Path child){
+		for (Path path : map.keySet()) {
+			if (child.isDirectChildOf(path)) {
+				return path;
+			}
+		}
+		return null;
+	}
+
 	/** Schema for jsons **/
 	public static JsonScheme getScheme(List<JsonElement> jsonRoots) {
 		Map<Path, BaseElementInfo> map = new LinkedHashMap<>();
@@ -94,7 +112,6 @@ public class JsonScheme {
 				}
 				if (entry.getValue().canBeNull) break;
 			}
-
 		}
 
 		return new JsonScheme(map);
@@ -210,7 +227,6 @@ public class JsonScheme {
 		for (Path path : paths) {
 			if (path.depth() == 1) {
 				toStringTree(sb, path, padding);
-				sb.append("\n");
 			}
 		}
 		return sb.toString();
@@ -280,16 +296,6 @@ public class JsonScheme {
 			parentLength += (Path.isAnySign(s) ? s.length() + 1 : s.length() / 2 + (s.length() % 2) + 1);
 		}
 		return parentLength;
-	}
-
-	private List<Path> getDirectChildren(Path parent){
-		List<Path> children = new ArrayList<>();
-		for (Path path : map.keySet()) {
-			if (path.isDirectChildOf(parent)) {
-				children.add(path);
-			}
-		}
-		return children;
 	}
 
 	private int stringLengthIgnoreAll(Path path){

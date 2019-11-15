@@ -3,8 +3,13 @@ Such as average values, null percentage, most frequent string values, avg array 
 
 [Get it on Jitpack!](https://jitpack.io/#maklas/JsonScheme)
 
-Works with Gson.
+1. Works with Gson.
+2. Use 'moreInfo()' to retrieve more information about elements.
+3. Can analyze `List<JsonElement>`, so it's suitable for situations when you have a bunch of json files and want to look at their common schema.
+4. Has it's way to directly extract values from Json, by using Path language (like xpath or css-selector, but for Json)
 
+
+#Obtaining JsonScheme
 Usage:
 ```java
 public static void main(String[] args) {
@@ -49,3 +54,32 @@ Result:
 Output format:
 
 `[<Type> <Field information>?] <Percentage of null values>?`
+
+#Path selection
+If you want to collect data from specific fields, you can do that with this utility as well!
+
+
+###Examples:
+>These examples are applied to the same json from the first chapter for simplicity)
+
+```java
+Path.parse("/widget/debug").get(json);
+//["on"]
+
+Path.parse("/widget/image").get(json);
+//[{"name":"sun","size":250}]
+
+Path.parse("/widget/text/array/0").get(json);
+//[{"StringKey":"StringValue","IntegerKey":5,"BooleanKey":false,"NullableKey":"Value"}]
+
+Path.parse("/widget/text/array/*/NullableKey").get(json, true)
+//["Value", "Value2"]
+
+Path.parse("/widget/text/array/*/NullableKey").get(json, false)
+//["Value", "Value2", null, null]
+```
+You can use pathing to obtain all fields with the same path.
+
+`/root/name/` - will visit child of the JsonObject
+`/array/*/` - will visit all children of JsonArray
+`/array/2/` - will get 3rd item of JsonArray
