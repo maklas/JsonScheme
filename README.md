@@ -9,7 +9,7 @@ Such as average values, null percentage, most frequent string values, avg array 
 4. Has it's way to directly extract values from Json, by using Path language (like xpath or css-selector, but for Json)
 
 
-#Obtaining JsonScheme
+# Obtaining JsonScheme
 Usage:
 ```java
 public static void main(String[] args) {
@@ -55,11 +55,11 @@ Output format:
 
 `[<Type> <Field information>?] <Percentage of null values>?`
 
-#Path selection
+# Path selection
 If you want to collect data from specific fields, you can do that with this utility as well!
 
 
-###Examples:
+### Examples:
 >These examples are applied to the same json from the first chapter for simplicity)
 
 ```java
@@ -81,5 +81,7 @@ Path.parse("/widget/text/array/*/NullableKey").get(json, false)
 You can use pathing to obtain all fields with the same path.
 
 `/root/name/` - will visit child of the JsonObject
+
 `/array/*/` - will visit all children of JsonArray
+
 `/array/2/` - will get 3rd item of JsonArray
