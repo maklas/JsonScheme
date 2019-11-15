@@ -277,7 +277,7 @@ public class JsonScheme {
 	private int getOffset(Path parent) {
 		int parentLength = 0;
 		for (String s : parent.path) {
-			parentLength += (Path.isAnySign(s) ? s.length() + 1 : s.length() / 2 + (s.length() % 2));
+			parentLength += (Path.isAnySign(s) ? s.length() + 1 : s.length() / 2 + (s.length() % 2) + 1);
 		}
 		return parentLength;
 	}
