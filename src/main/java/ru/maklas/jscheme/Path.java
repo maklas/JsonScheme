@@ -2,6 +2,7 @@ package ru.maklas.jscheme;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -181,6 +182,46 @@ public class Path {
 
 	static boolean isAnySign(String s){
 		return "*".equals(s);
+	}
+
+	public Integer getInt(JsonElement e) {
+		JsonElement val = getSingle(e);
+		return val == null ? null : val.getAsInt();
+	}
+
+	public Long getLong(JsonElement e) {
+		JsonElement val = getSingle(e);
+		return val == null ? null : val.getAsLong();
+	}
+
+	public Float getFloat(JsonElement e) {
+		JsonElement val = getSingle(e);
+		return val == null ? null : val.getAsFloat();
+	}
+
+	public Double getDouble(JsonElement e) {
+		JsonElement val = getSingle(e);
+		return val == null ? null : val.getAsDouble();
+	}
+
+	public Boolean getBool(JsonElement e) {
+		JsonElement val = getSingle(e);
+		return val == null ? null : val.getAsBoolean();
+	}
+
+	public String getString(JsonElement e) {
+		JsonElement val = getSingle(e);
+		return val == null ? null : val.getAsString();
+	}
+
+	public JsonObject getObject(JsonElement e) {
+		JsonElement val = getSingle(e);
+		return val == null ? null : val.getAsJsonObject();
+	}
+
+	public JsonArray getArray(JsonElement e) {
+		JsonElement val = getSingle(e);
+		return val == null ? null : val.getAsJsonArray();
 	}
 
 	/** Returns single JsonElement, implying that there are no arrays in the path. Otherwise might throw exception **/
