@@ -224,6 +224,46 @@ public class Path {
 		return val == null ? null : val.getAsJsonArray();
 	}
 
+	public Integer getInt(JsonElement e, Integer def) {
+		JsonElement val = getSingle(e);
+		return val == null ? def : val.getAsInt();
+	}
+
+	public Long getLong(JsonElement e, Long def) {
+		JsonElement val = getSingle(e);
+		return val == null ? def : val.getAsLong();
+	}
+
+	public Float getFloat(JsonElement e, Float def) {
+		JsonElement val = getSingle(e);
+		return val == null ? def : val.getAsFloat();
+	}
+
+	public Double getDouble(JsonElement e, Double def) {
+		JsonElement val = getSingle(e);
+		return val == null ? def : val.getAsDouble();
+	}
+
+	public Boolean getBool(JsonElement e, Boolean def) {
+		JsonElement val = getSingle(e);
+		return val == null ? def : val.getAsBoolean();
+	}
+
+	public String getString(JsonElement e, String def) {
+		JsonElement val = getSingle(e);
+		return val == null ? def : val.getAsString();
+	}
+
+	public JsonObject getObject(JsonElement e, JsonObject def) {
+		JsonElement val = getSingle(e);
+		return val == null ? def : val.getAsJsonObject();
+	}
+
+	public JsonArray getArray(JsonElement e, JsonArray def) {
+		JsonElement val = getSingle(e);
+		return val == null ? def : val.getAsJsonArray();
+	}
+
 	/** Returns single JsonElement, implying that there are no arrays in the path. Otherwise might throw exception **/
 	public JsonElement getSingle(JsonElement e) {
 		for (String s : path) {
